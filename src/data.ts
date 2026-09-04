@@ -576,9 +576,9 @@ export const tools: Tool[] = [
     logoText: '★',
     logoColor: '#ff6b00',
     description: 'Want your AI tool or software featured right here at the top of NovaTools Hub to reach thousands of active creators? Click below to secure this premium ad placement instantly.',
-    category: 'all',
+    category: 'developer',
     pricing: 'Sponsored Placement',
-    url: 'mailto:mahakaalstudio.dev@://gmail.com',
+    url: 'mailto:mahakaalstudio.dev@gmail.com',
     deal: 'Spot Available',
     approved: true,
   }
