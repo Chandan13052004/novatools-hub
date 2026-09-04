@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { X, Send, CheckCircle2, Loader2 } from 'lucide-react';
+import { X, CheckCircle2, Loader2 } from 'lucide-react';
 import type { Category } from '../types';
 
 interface SubmitModalProps {
@@ -77,22 +77,31 @@ export default function SubmitModal({ open, onClose, categories }: SubmitModalPr
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
     setSubmitting(true);
-    setTimeout(() => {
-      try {
-        const stored = localStorage.getItem('toolhub_submissions');
-        const submissions = stored ? JSON.parse(stored) : [];
-        submissions.push({ ...form, createdAt: new Date().toISOString() });
-        localStorage.setItem('toolhub_submissions', JSON.stringify(submissions));
-      } catch {
-        // localStorage may be unavailable; submission still succeeds in-session
+
+    try {
+      const response = await fetch('https://formspree.io/f/xgaezkzp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(form)
+      });
+
+      if (response.ok) {
+        setSuccess(true);
+      } else {
+        alert('Something went wrong. Please try again.');
       }
+    } catch {
+      alert('Network error. Please check your internet connection.');
+    } finally {
       setSubmitting(false);
-      setSuccess(true);
-    }, 800);
+    }
   };
 
   const fieldClass = (field: keyof FormData) =>
@@ -220,13 +229,13 @@ export default function SubmitModal({ open, onClose, categories }: SubmitModalPr
               {/* Pitch */}
               <div>
                 <label className="mb-1.5 block text-xs font-medium text-slate-400">
-                  Short Pitch
+                  Short Pitch / Description
                 </label>
                 <textarea
                   value={form.pitch}
                   onChange={(e) => setForm({ ...form, pitch: e.target.value })}
-                  placeholder="In 1-2 sentences, what makes your tool special?"
-                  rows={3}
+                  placeholder="Describe your tool and why it belongs in our directory..."
+                  rows={4}
                   className={`${fieldClass('pitch')} resize-none`}
                 />
                 {errors.pitch && <p className="mt-1 text-xs text-red-400">{errors.pitch}</p>}
@@ -236,7 +245,7 @@ export default function SubmitModal({ open, onClose, categories }: SubmitModalPr
             <button
               type="submit"
               disabled={submitting}
-              className="glow-btn mt-6 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold text-ink-950 disabled:opacity-60"
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-600 px-4 py-3.5 text-sm font-semibold text-white shadow-lg transition-all hover:brightness-110 disabled:opacity-50"
             >
               {submitting ? (
                 <>
@@ -245,8 +254,7 @@ export default function SubmitModal({ open, onClose, categories }: SubmitModalPr
                 </>
               ) : (
                 <>
-                  <Send className="h-4 w-4" />
-                  Submit Tool
+                  Submit Tool Application
                 </>
               )}
             </button>
