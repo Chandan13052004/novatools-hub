@@ -22,10 +22,10 @@ export default function Footer() {
     setTimeout(() => setSubscribed(false), 4000);
   };
 
-  // Smooth scroll handler function
-  const handleScroll = (e: React.MouseEvent, elementId: string) => {
+  // Smooth scroll handler function that targets your main filter hub
+  const handleScrollToGrid = (e: React.MouseEvent) => {
     e.preventDefault();
-    const element = document.getElementById(elementId);
+    const element = document.getElementById('directory');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
@@ -78,7 +78,7 @@ export default function Footer() {
               <li>
                 <a 
                   href="#directory" 
-                  onClick={(e) => handleScroll(e, 'directory')}
+                  onClick={handleScrollToGrid}
                   className="text-sm text-slate-400 transition-colors hover:text-accent-cyan"
                 >
                   Browse Directory
@@ -87,10 +87,10 @@ export default function Footer() {
               <li>
                 <a 
                   href="#directory" 
-                  onClick={(e) => handleScroll(e, 'directory')}
+                  onClick={handleScrollToGrid}
                   className="text-sm text-slate-400 transition-colors hover:text-accent-cyan"
                 >
-                  Categories
+                  Filter Categories
                 </a>
               </li>
               <li>
@@ -102,7 +102,7 @@ export default function Footer() {
                   }}
                   className="text-sm text-slate-400 transition-colors hover:text-accent-cyan"
                 >
-                  Submit a Tool
+                  Submit a Tool (Join Form)
                 </a>
               </li>
               <li>
@@ -126,7 +126,7 @@ export default function Footer() {
                   }}
                   className="text-sm text-slate-400 transition-colors hover:text-accent-cyan"
                 >
-                  Contact
+                  Contact Helpdesk
                 </a>
               </li>
             </ul>
@@ -134,31 +134,31 @@ export default function Footer() {
 
           {/* Categories */}
           <div>
-            <h4 className="mb-4 text-sm font-semibold text-white">Top Categories</h4>
+            <h4 className="mb-4 text-sm font-semibold text-white">Top Categories Explore</h4>
             <ul className="space-y-2.5">
               <li>
-                <a href="#directory" onClick={(e) => handleScroll(e, 'directory')} className="text-sm text-slate-400 hover:text-accent-cyan">
-                  Writing
+                <a href="#directory" onClick={handleScrollToGrid} className="text-sm text-slate-400 hover:text-accent-cyan flex items-center gap-1">
+                  ✍️ Explore Writing AI
                 </a>
               </li>
               <li>
-                <a href="#directory" onClick={(e) => handleScroll(e, 'directory')} className="text-sm text-slate-400 hover:text-accent-cyan">
-                  Image Generation
+                <a href="#directory" onClick={handleScrollToGrid} className="text-sm text-slate-400 hover:text-accent-cyan flex items-center gap-1">
+                  🎨 Explore Image Gen AI
                 </a>
               </li>
               <li>
-                <a href="#directory" onClick={(e) => handleScroll(e, 'directory')} className="text-sm text-slate-400 hover:text-accent-cyan">
-                  Video
+                <a href="#directory" onClick={handleScrollToGrid} className="text-sm text-slate-400 hover:text-accent-cyan flex items-center gap-1">
+                  🎬 Explore Video AI
                 </a>
               </li>
               <li>
-                <a href="#directory" onClick={(e) => handleScroll(e, 'directory')} className="text-sm text-slate-400 hover:text-accent-cyan">
-                  Developer Tools
+                <a href="#directory" onClick={handleScrollToGrid} className="text-sm text-slate-400 hover:text-accent-cyan flex items-center gap-1">
+                  🛠️ Explore Developer Tools
                 </a>
               </li>
               <li>
-                <a href="#directory" onClick={(e) => handleScroll(e, 'directory')} className="text-sm text-slate-400 hover:text-accent-cyan">
-                  Productivity
+                <a href="#directory" onClick={handleScrollToGrid} className="text-sm text-slate-400 hover:text-accent-cyan flex items-center gap-1">
+                  ⚡ Explore Productivity AI
                 </a>
               </li>
             </ul>
