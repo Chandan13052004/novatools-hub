@@ -22,6 +22,15 @@ export default function Footer() {
     setTimeout(() => setSubscribed(false), 4000);
   };
 
+  // Smooth scroll handler function
+  const handleScroll = (e: React.MouseEvent, elementId: string) => {
+    e.preventDefault();
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <footer id="about" className="relative mt-20 border-t border-ink-700/40 bg-ink-900/50">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -67,27 +76,56 @@ export default function Footer() {
             <h4 className="mb-4 text-sm font-semibold text-white">Quick Links</h4>
             <ul className="space-y-2.5">
               <li>
-                <a href="#directory" className="text-sm text-slate-400 transition-colors hover:text-accent-cyan">
+                <a 
+                  href="#directory" 
+                  onClick={(e) => handleScroll(e, 'directory')}
+                  className="text-sm text-slate-400 transition-colors hover:text-accent-cyan"
+                >
                   Browse Directory
                 </a>
               </li>
               <li>
-                <a href="#categories" className="text-sm text-slate-400 transition-colors hover:text-accent-cyan">
+                <a 
+                  href="#directory" 
+                  onClick={(e) => handleScroll(e, 'directory')}
+                  className="text-sm text-slate-400 transition-colors hover:text-accent-cyan"
+                >
                   Categories
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-slate-400 transition-colors hover:text-accent-cyan">
+                <a 
+                  href="#" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="text-sm text-slate-400 transition-colors hover:text-accent-cyan"
+                >
                   Submit a Tool
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-slate-400 transition-colors hover:text-accent-cyan">
+                <a 
+                  href="#" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    alert('About NovaTools Hub:\n\nNovaTools Hub is a next-generation software directory curated by Mahakaal Studio. We specialize in testing, indexing, and organizing the absolute best AI and digital tools across the web to help global creators supercharge their workflows.');
+                  }}
+                  className="text-sm text-slate-400 transition-colors hover:text-accent-cyan"
+                >
                   About Us
                 </a>
               </li>
               <li>
-                <a href="#" className="text-sm text-slate-400 transition-colors hover:text-accent-cyan">
+                <a 
+                  href="#" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    alert('Contact NovaTools Hub:\n\nFor business inquiries, promotional partnerships, or sponsored tool listing placements, email us directly at:\n\n👉 mahakaalstudio.dev@gmail.com');
+                  }}
+                  className="text-sm text-slate-400 transition-colors hover:text-accent-cyan"
+                >
                   Contact
                 </a>
               </li>
@@ -98,11 +136,31 @@ export default function Footer() {
           <div>
             <h4 className="mb-4 text-sm font-semibold text-white">Top Categories</h4>
             <ul className="space-y-2.5">
-              <li><a href="#" className="text-sm text-slate-400 hover:text-accent-cyan">Writing</a></li>
-              <li><a href="#" className="text-sm text-slate-400 hover:text-accent-cyan">Image Generation</a></li>
-              <li><a href="#" className="text-sm text-slate-400 hover:text-accent-cyan">Video</a></li>
-              <li><a href="#" className="text-sm text-slate-400 hover:text-accent-cyan">Developer Tools</a></li>
-              <li><a href="#" className="text-sm text-slate-400 hover:text-accent-cyan">Productivity</a></li>
+              <li>
+                <a href="#directory" onClick={(e) => handleScroll(e, 'directory')} className="text-sm text-slate-400 hover:text-accent-cyan">
+                  Writing
+                </a>
+              </li>
+              <li>
+                <a href="#directory" onClick={(e) => handleScroll(e, 'directory')} className="text-sm text-slate-400 hover:text-accent-cyan">
+                  Image Generation
+                </a>
+              </li>
+              <li>
+                <a href="#directory" onClick={(e) => handleScroll(e, 'directory')} className="text-sm text-slate-400 hover:text-accent-cyan">
+                  Video
+                </a>
+              </li>
+              <li>
+                <a href="#directory" onClick={(e) => handleScroll(e, 'directory')} className="text-sm text-slate-400 hover:text-accent-cyan">
+                  Developer Tools
+                </a>
+              </li>
+              <li>
+                <a href="#directory" onClick={(e) => handleScroll(e, 'directory')} className="text-sm text-slate-400 hover:text-accent-cyan">
+                  Productivity
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -113,13 +171,13 @@ export default function Footer() {
             &copy; 2026 NovaTools Hub. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <a href="#" className="text-slate-500 transition-colors hover:text-accent-cyan" aria-label="GitHub">
+            <a href="https://github.com" target="_blank" rel="noreferrer" className="text-slate-500 transition-colors hover:text-accent-cyan" aria-label="GitHub">
               <Github className="h-5 w-5" />
             </a>
             <a href="#" className="text-slate-500 transition-colors hover:text-accent-cyan" aria-label="Twitter">
               <Twitter className="h-5 w-5" />
             </a>
-            <a href="#" className="text-slate-500 transition-colors hover:text-accent-cyan" aria-label="LinkedIn">
+            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-slate-500 transition-colors hover:text-accent-cyan" aria-label="LinkedIn">
               <Linkedin className="h-5 w-5" />
             </a>
           </div>
