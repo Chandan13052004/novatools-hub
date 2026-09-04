@@ -29,12 +29,13 @@ export default function App() {
   }, [searchQuery, activeCategory]);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-ink-950">
       <Header onSubmitClick={() => setModalOpen(true)} />
 
-      <Hero totalTools={150} />
+      <Hero totalTools={50} />
 
-      <section id="directory" className="px-4 pb-8 sm:px-6 lg:px-8">
+      {/* FIXED ANCHOR ID ADDED BELOW */}
+      <section id="directory" className="px-4 pb-8 sm:px-6 lg:px-8 scroll-mt-20">
         <SearchBar value={searchQuery} onChange={setSearchQuery} />
 
         <div className="mt-8">
