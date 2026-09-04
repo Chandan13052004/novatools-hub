@@ -1,107 +1,76 @@
-import React from 'react';
-import { ExternalLink, ShieldCheck, Mail, Info, DollarSign } from 'lucide-react';
-
-interface Tool {
-  id: string;
-  name: string;
-  logoText: string;
-  logoColor: string;
-  description: string;
-  category: string;
-  pricing: string;
-  url: string;
-  deal?: string;
-  approved?: boolean;
-}
+import { BadgeCheck, ExternalLink, Tag } from 'lucide-react';
+import type { Tool } from '../types';
 
 interface ToolCardProps {
   tool: Tool;
   index: number;
 }
 
-export default function ToolCard({ tool }: ToolCardProps) {
-  const handleButtonClick = (e: React.MouseEvent) => {
-    // If it is our special sponsored slot placeholder, prevent the blank page link trap
-    if (tool.id === 'sponsored-slot-placeholder') {
-      e.preventDefault();
-      
-      const detailsMessage = `
-🌟 NOVATOOLS HUB SPONSORSHIP DESK 🌟
+const pricingStyles: Record<Tool['pricing'], string> = {
+  '100% Free': 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+  Freemium: 'text-accent-cyan bg-accent-cyan/10 border-accent-cyan/20',
+  'Free Trial Available': 'text-accent-violet bg-accent-violet/10 border-accent-violet/20',
+};
 
-Thank you for your interest in scaling your brand visibility on NovaTools Hub!
-
-■ PLACEMENT DETAILS:
-• Position: Top Grid Priority Slot (Maximum user attention)
-• Target Audience: 5,000+ Active Global Creators, Developers & SMBs
-• Listing Type: Premium Card with Custom Badge Ribbon
-
-■ ADVERTISING RATES:
-• 1 Week Premium Feature: ₹2,000 ($25)
-• 1 Month Premium Feature: ₹6,500 ($80)
-
-■ HOW TO SECURE YOUR SLOT NOW:
-1. Copy our business helpdesk email address below.
-2. Email us your Tool Name, Logo Asset, and a 2-sentence pitch text.
-3. Our curation team will review your application and share secure payment checkout routes immediately.
-
-📩 OFFICIAL BUSINESS CONTACT:
-mahakaalstudio.dev@gmail.com
-
-Click 'OK' to launch your default email client and draft an inquiry instantly!
-      `;
-
-      if (window.confirm(detailsMessage)) {
-        window.location.href = tool.url;
-      }
-    }
-  };
-
+export default function ToolCard({ tool, index }: ToolCardProps) {
   return (
-    <div className="card-surface relative flex flex-col justify-between p-6 transition-all duration-300">
+    <div
+      className="card-surface group relative flex flex-col p-5 transition-all duration-300 animate-fade-in-up"
+      style={{ animationDelay: `${index * 0.08}s` }}
+    >
+      {/* Exclusive Deal ribbon */}
       {tool.deal && (
-        <div className="ribbon-glow absolute -right-2 -top-2 rounded-lg px-2.5 py-1 text-xs font-bold text-black uppercase tracking-wider animate-pulse">
-          {tool.deal}
+        <div className="absolute -top-3 left-4 z-10">
+          <div className="ribbon-glow rounded-lg px-3 py-1 text-xs font-bold text-black shadow-lg">
+            {tool.deal}
+          </div>
         </div>
       )}
 
-      <div>
-        <div className="mb-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div
-              className="flex h-12 w-12 items-center justify-center rounded-xl font-display text-base font-bold shadow-inner"
-              style={{ backgroundColor: `${tool.logoColor}15`, color: tool.logoColor, border: `1px solid ${tool.logoColor}30` }}
-            >
-              {tool.logoText}
-            </div>
-            <div>
-              <h3 className="font-display font-bold text-white flex items-center gap-1.5 text-base">
-                {tool.name}
-                {tool.approved && <ShieldCheck className="h-4 w-4 text-cyan-400" />}
-              </h3>
-              <span className="inline-block mt-0.5 rounded-md bg-ink-800 px-2 py-0.5 text-xs font-medium text-slate-400 border border-ink-700/40">
-                {tool.pricing}
+      {/* Header: logo + name + approved badge */}
+      <div className="mb-4 mt-1 flex items-start gap-3">
+        <div
+          className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white shadow-lg"
+          style={{
+            background: `linear-gradient(135deg, ${tool.logoColor}cc 0%, ${tool.logoColor}66 100%)`,
+            boxShadow: `0 4px 16px ${tool.logoColor}33`,
+          }}
+        >
+          {tool.logoText}
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-1.5">
+            <h3 className="truncate font-display text-lg font-semibold text-white">
+              {tool.name}
+            </h3>
+            {tool.approved && (
+              <span className="flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400">
+                <BadgeCheck className="h-3 w-3" />
+                Approved
               </span>
-            </div>
+            )}
+          </div>
+          <div className={`mt-1.5 inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-medium ${pricingStyles[tool.pricing]}`}>
+            <Tag className="h-3 w-3" />
+            {tool.pricing}
           </div>
         </div>
-
-        <p className="text-sm leading-relaxed text-slate-400 mb-6 line-clamp-3">
-          {tool.description}
-        </p>
       </div>
 
+      {/* Description */}
+      <p className="mb-5 flex-1 text-sm leading-relaxed text-slate-400">
+        {tool.description}
+      </p>
+
+      {/* CTA */}
       <a
         href={tool.url}
-        target={tool.id === 'sponsored-slot-placeholder' ? '_self' : '_blank'}
-        rel="noreferrer"
-        onClick={handleButtonClick}
-        className={`w-full flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold text-white transition-all duration-300 ${
-          tool.id === 'sponsored-slot-placeholder'
-            ? 'bg-gradient-to-r from-amber-500 to-orange-600 shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:brightness-110'
-            : 'bg-ink-800 hover:bg-ink-750 border border-ink-700/50 hover:border-accent-cyan/30'
-        }`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="glow-btn flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold text-ink-950"
       >
-        {tool.id === 'sponsored-slot-placeholder' ? 'Sponsor This Spot ↗' : 'Visit Website ↗'}
+        Visit Website
+        <ExternalLink className="h-4 w-4" />
       </a>
     </div>
   );
