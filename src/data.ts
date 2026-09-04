@@ -569,5 +569,18 @@ export const tools: Tool[] = [
     pricing: 'Freemium',
     url: 'phind.com',
     approved: true,
+  },
+  {
+    id: 'sponsored-slot-placeholder',
+    name: '🚀 Sponsor This Slot',
+    logoText: '★',
+    logoColor: '#ff6b00',
+    description: 'Want your AI tool or software featured right here at the top of NovaTools Hub to reach thousands of active creators? Click below to secure this premium ad placement instantly.',
+    category: 'all',
+    pricing: 'Sponsored Placement',
+    url: 'mailto:mahakaalstudio.dev@://gmail.com',
+    deal: 'Spot Available',
+    approved: true,
   }
+
 ];
