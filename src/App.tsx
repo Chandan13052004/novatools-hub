@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -10,10 +10,41 @@ import Footer from './components/Footer';
 import { categories, tools } from './data';
 import type { CategoryId } from './types';
 
+function getCategoryFromUrl(): CategoryId {
+  const param = new URLSearchParams(window.location.search).get('category');
+  return categories.some((c) => c.id === param) ? (param as CategoryId) : 'all';
+}
+
 export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState<CategoryId>('all');
+  const [activeCategory, setActiveCategory] = useState<CategoryId>(getCategoryFromUrl);
   const [modalOpen, setModalOpen] = useState(false);
+
+  // Keep ?category= in the URL in sync so sitemap links open the right filter
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (activeCategory === 'all') {
+      url.searchParams.delete('category');
+    } else {
+      url.searchParams.set('category', activeCategory);
+    }
+    if (url.href !== window.location.href) {
+      window.history.replaceState(null, '', url);
+    }
+  }, [activeCategory]);
+
+  // Scroll to the directory when landing on a category URL
+  useEffect(() => {
+    if (getCategoryFromUrl() !== 'all') {
+      document.getElementById('directory')?.scrollIntoView();
+    }
+  }, []);
+
+  const handleFooterCategory = (id: CategoryId) => {
+    setActiveCategory(id);
+    setSearchQuery('');
+    document.getElementById('directory')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const filteredTools = useMemo(() => {
     return tools.filter((tool) => {
@@ -76,7 +107,11 @@ export default function App() {
         )}
       </section>
 
-      <Footer />
+      <Footer
+        categories={categories}
+        onCategorySelect={handleFooterCategory}
+        onSubmitClick={() => setModalOpen(true)}
+      />
 
       <SubmitModal
         open={modalOpen}

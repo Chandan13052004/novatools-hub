@@ -11,7 +11,7 @@ export default function Header({ onSubmitClick }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-ink-700/40 bg-ink-950/80 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <a href="#" className="flex items-center gap-2.5 group">
+        <a href="/" className="flex items-center gap-2.5 group">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-accent-cyan to-accent-cyanGlow shadow-lg shadow-accent-cyan/20 transition-transform group-hover:scale-105">
             <Sparkles className="h-5 w-5 text-ink-950" strokeWidth={2.5} />
           </div>

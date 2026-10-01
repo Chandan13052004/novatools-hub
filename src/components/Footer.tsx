@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { Sparkles, CheckCircle2, Github, Twitter, Linkedin } from 'lucide-react';
+import type { Category, CategoryId } from '../types';
 
-export default function Footer() {
+interface FooterProps {
+  categories: Category[];
+  onCategorySelect: (id: CategoryId) => void;
+  onSubmitClick: () => void;
+}
+
+export default function Footer({ categories, onCategorySelect, onSubmitClick }: FooterProps) {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [error, setError] = useState('');
@@ -98,7 +105,7 @@ export default function Footer() {
                   href="#" 
                   onClick={(e) => {
                     e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    onSubmitClick();
                   }}
                   className="text-sm text-slate-400 transition-colors hover:text-accent-cyan"
                 >
@@ -136,31 +143,22 @@ export default function Footer() {
           <div>
             <h4 className="mb-4 text-sm font-semibold text-white">Top Categories Explore</h4>
             <ul className="space-y-2.5">
-              <li>
-                <a href="#directory" onClick={handleScrollToGrid} className="text-sm text-slate-400 hover:text-accent-cyan flex items-center gap-1">
-                  ✍️ Explore Writing AI
-                </a>
-              </li>
-              <li>
-                <a href="#directory" onClick={handleScrollToGrid} className="text-sm text-slate-400 hover:text-accent-cyan flex items-center gap-1">
-                  🎨 Explore Image Gen AI
-                </a>
-              </li>
-              <li>
-                <a href="#directory" onClick={handleScrollToGrid} className="text-sm text-slate-400 hover:text-accent-cyan flex items-center gap-1">
-                  🎬 Explore Video AI
-                </a>
-              </li>
-              <li>
-                <a href="#directory" onClick={handleScrollToGrid} className="text-sm text-slate-400 hover:text-accent-cyan flex items-center gap-1">
-                  🛠️ Explore Developer Tools
-                </a>
-              </li>
-              <li>
-                <a href="#directory" onClick={handleScrollToGrid} className="text-sm text-slate-400 hover:text-accent-cyan flex items-center gap-1">
-                  ⚡ Explore Productivity AI
-                </a>
-              </li>
+              {categories
+                .filter((cat) => cat.id !== 'all')
+                .map((cat) => (
+                  <li key={cat.id}>
+                    <a
+                      href={`/?category=${cat.id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onCategorySelect(cat.id);
+                      }}
+                      className="text-sm text-slate-400 hover:text-accent-cyan flex items-center gap-1"
+                    >
+                      {cat.icon} Explore {cat.label}
+                    </a>
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
